@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Weather Forecast App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+  <!-- Weather Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css">
+  <!-- Font Awesome for additional icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+  <body class="bg-gradient-to-br from-violet-100 via-purple-200 to-pink-300 min-h-screen transition-all duration-500 relative overflow-hidden" id="body">
+    <!-- Animated Clouds Background -->
+    <div class="clouds-container absolute inset-0 pointer-events-none">
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+      <div class="cloud cloud-3"></div>
+      <div class="cloud cloud-4"></div>
+      <div class="cloud cloud-5"></div>
+      <div class="cloud cloud-6"></div>
+      <div class="cloud cloud-7"></div>
+      <div class="cloud cloud-8"></div>
+      <div class="cloud cloud-9"></div>
+      <div class="cloud cloud-10"></div>
+      <div class="cloud cloud-11"></div>
+      <div class="cloud cloud-12"></div>
+    </div>
+  <!-- Theme Toggle -->
+  <div class="fixed top-6 right-6 z-50">
+    <button id="themeToggle" class="bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 border border-white/20">
+      <i class="fas fa-sun text-amber-500 text-xl" id="themeIcon"></i>
+    </button>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-white/95 backdrop-blur-md shadow-2xl border-b border-white/20 sticky top-0 z-40 transition-all duration-500" id="header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center py-6">
+        <div class="flex items-center space-x-4">
+          <div class="w-12 h-12 bg-gradient-to-br from-violet-500 via-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <i class="wi wi-day-sunny text-white text-2xl"></i>
+          </div>
+          <div>
+            <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-500 via-purple-600 to-pink-600 bg-clip-text text-transparent">WeatherPro</h1>
+            <p class="text-sm text-gray-700 font-medium">Professional Weather Forecast</p>
+          </div>
+        </div>
+        <div class="text-sm text-gray-700 bg-gradient-to-r from-violet-50 to-purple-50 px-4 py-3 rounded-xl border border-violet-200/50">
+          <i class="far fa-clock mr-2 text-violet-500"></i>
+          <span id="currentTime" class="font-semibold"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Search Section -->
+    <div class="bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-8 mb-8 border border-white/20 transition-all duration-500" id="searchSection">
+      <div class="flex flex-col lg:flex-row gap-6">
+        <!-- Search Input -->
+        <div class="flex-1">
+          <div class="relative">
+            <input 
+              type="text" 
+              id="cityInput" 
+              placeholder="Enter city name..." 
+              class="w-full px-6 py-4 pl-14 border-2 border-violet-200 rounded-2xl focus:ring-4 focus:ring-violet-300 focus:border-violet-400 transition-all duration-300 text-lg bg-gradient-to-r from-violet-50 to-purple-50"
+            />
+            <i class="fas fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-violet-500 text-lg"></i>
+          </div>
+        </div>
+        
+        <!-- Search Buttons -->
+        <div class="flex gap-3">
+          <button 
+            id="searchBtn" 
+            class="px-8 py-4 bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-2xl hover:from-violet-600 hover:to-purple-700 transition-all duration-300 flex items-center gap-3 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+          >
+            <i class="fas fa-search text-lg"></i>
+            Search
+          </button>
+          <button 
+            id="currentLocationBtn" 
+            class="px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-600 text-white rounded-2xl hover:from-pink-600 hover:to-rose-700 transition-all duration-300 flex items-center gap-3 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+          >
+            <i class="fas fa-location-arrow text-lg"></i>
+            Current
+          </button>
+        </div>
+      </div>
+
+      <!-- Location Tabs -->
+      <div class="mt-8">
+        <div class="flex flex-wrap gap-2 bg-gradient-to-r from-violet-50 to-purple-50 p-2 rounded-2xl border border-violet-200/50">
+          <button id="popularTab" class="location-tab active px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 shadow-lg">
+            <i class="fas fa-star mr-2 text-amber-500"></i>Popular Cities
+          </button>
+          <button id="northTab" class="location-tab px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 shadow-lg">
+            <i class="fas fa-mountain mr-2 text-red-500"></i>North India
+          </button>
+          <button id="southTab" class="location-tab px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 shadow-lg">
+            <i class="fas fa-sun mr-2 text-orange-500"></i>South India
+          </button>
+          <button id="eastTab" class="location-tab px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 shadow-lg">
+            <i class="fas fa-sunrise mr-2 text-yellow-500"></i>East India
+          </button>
+          <button id="westTab" class="location-tab px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 shadow-lg">
+            <i class="fas fa-sunset mr-2 text-green-500"></i>West India
+          </button>
+          <button id="centralTab" class="location-tab px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 shadow-lg">
+            <i class="fas fa-compass mr-2 text-purple-500"></i>Central India
+          </button>
+        </div>
+      </div>
+
+      <!-- Popular Cities -->
+      <div id="popularCities" class="location-section mt-4">
+        <h3 class="text-lg font-semibold text-gray-700 mb-3">Popular Cities</h3>
+                       <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
+                 <button class="popular-city-btn bg-gradient-to-r from-violet-100 to-purple-100 hover:from-violet-200 hover:to-purple-200 text-violet-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg" data-city="Mumbai">🌆 Mumbai</button>
+                 <button class="popular-city-btn bg-gradient-to-r from-violet-100 to-purple-100 hover:from-violet-200 hover:to-purple-200 text-violet-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg" data-city="Delhi">🏛️ Delhi</button>
+                 <button class="popular-city-btn bg-gradient-to-r from-violet-100 to-purple-100 hover:from-violet-200 hover:to-purple-200 text-violet-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg" data-city="Bangalore">🌳 Bangalore</button>
+                 <button class="popular-city-btn bg-gradient-to-r from-violet-100 to-purple-100 hover:from-violet-200 hover:to-purple-200 text-violet-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg" data-city="Chennai">🌊 Chennai</button>
+                 <button class="popular-city-btn bg-gradient-to-r from-violet-100 to-purple-100 hover:from-violet-200 hover:to-purple-200 text-violet-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg" data-city="Kolkata">🎭 Kolkata</button>
+                 <button class="popular-city-btn bg-gradient-to-r from-violet-100 to-purple-100 hover:from-violet-200 hover:to-purple-200 text-violet-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg" data-city="Hyderabad">💎 Hyderabad</button>
+                 <button class="popular-city-btn bg-gradient-to-r from-violet-100 to-purple-100 hover:from-violet-200 hover:to-purple-200 text-violet-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg" data-city="Pune">🏔️ Pune</button>
+                 <button class="popular-city-btn bg-gradient-to-r from-violet-100 to-purple-100 hover:from-violet-200 hover:to-purple-200 text-violet-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg" data-city="Ahmedabad">🏺 Ahmedabad</button>
+                 <button class="popular-city-btn bg-gradient-to-r from-violet-100 to-purple-100 hover:from-violet-200 hover:to-purple-200 text-violet-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg" data-city="Jaipur">🏰 Jaipur</button>
+                 <button class="popular-city-btn bg-gradient-to-r from-violet-100 to-purple-100 hover:from-violet-200 hover:to-purple-200 text-violet-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg" data-city="Lucknow">🎪 Lucknow</button>
+                 <button class="popular-city-btn bg-gradient-to-r from-violet-100 to-purple-100 hover:from-violet-200 hover:to-purple-200 text-violet-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg" data-city="Chandigarh">🌿 Chandigarh</button>
+                 <button class="popular-city-btn bg-gradient-to-r from-violet-100 to-purple-100 hover:from-violet-200 hover:to-purple-200 text-violet-800 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg" data-city="Bhopal">🏛️ Bhopal</button>
+               </div>
+      </div>
+
+      <!-- North India -->
+      <div id="northIndia" class="location-section mt-4 hidden">
+        <h3 class="text-lg font-semibold text-gray-700 mb-3">North India States & Cities</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+          <button class="north-city-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Delhi">Delhi</button>
+          <button class="north-city-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Chandigarh">Chandigarh</button>
+          <button class="north-city-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Jaipur, Rajasthan">Jaipur, RJ</button>
+          <button class="north-city-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Lucknow, Uttar Pradesh">Lucknow, UP</button>
+          <button class="north-city-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Dehradun, Uttarakhand">Dehradun, UK</button>
+          <button class="north-city-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Shimla, Himachal Pradesh">Shimla, HP</button>
+          <button class="north-city-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Srinagar, Jammu and Kashmir">Srinagar, JK</button>
+          <button class="north-city-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Amritsar, Punjab">Amritsar, PB</button>
+          <button class="north-city-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Jodhpur, Rajasthan">Jodhpur, RJ</button>
+          <button class="north-city-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Varanasi, Uttar Pradesh">Varanasi, UP</button>
+          <button class="north-city-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Agra, Uttar Pradesh">Agra, UP</button>
+          <button class="north-city-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Kanpur, Uttar Pradesh">Kanpur, UP</button>
+        </div>
+      </div>
+
+      <!-- South India -->
+      <div id="southIndia" class="location-section mt-4 hidden">
+        <h3 class="text-lg font-semibold text-gray-700 mb-3">South India States & Cities</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+          <button class="south-city-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Bangalore, Karnataka">Bangalore, KA</button>
+          <button class="south-city-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Chennai, Tamil Nadu">Chennai, TN</button>
+          <button class="south-city-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Hyderabad, Telangana">Hyderabad, TS</button>
+          <button class="south-city-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Kochi, Kerala">Kochi, KL</button>
+          <button class="south-city-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Thiruvananthapuram, Kerala">Thiruvananthapuram, KL</button>
+          <button class="south-city-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Coimbatore, Tamil Nadu">Coimbatore, TN</button>
+          <button class="south-city-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Madurai, Tamil Nadu">Madurai, TN</button>
+          <button class="south-city-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Mysore, Karnataka">Mysore, KA</button>
+          <button class="south-city-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Vijayawada, Andhra Pradesh">Vijayawada, AP</button>
+          <button class="south-city-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Visakhapatnam, Andhra Pradesh">Visakhapatnam, AP</button>
+          <button class="south-city-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Puducherry">Puducherry</button>
+          <button class="south-city-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Port Blair, Andaman and Nicobar">Port Blair, AN</button>
+        </div>
+      </div>
+
+      <!-- East India -->
+      <div id="eastIndia" class="location-section mt-4 hidden">
+        <h3 class="text-lg font-semibold text-gray-700 mb-3">East India States & Cities</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+          <button class="east-city-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Kolkata, West Bengal">Kolkata, WB</button>
+          <button class="east-city-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Patna, Bihar">Patna, BR</button>
+          <button class="east-city-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Bhubaneswar, Odisha">Bhubaneswar, OD</button>
+          <button class="east-city-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Ranchi, Jharkhand">Ranchi, JH</button>
+          <button class="east-city-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Guwahati, Assam">Guwahati, AS</button>
+          <button class="east-city-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Imphal, Manipur">Imphal, MN</button>
+          <button class="east-city-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Aizawl, Mizoram">Aizawl, MZ</button>
+          <button class="east-city-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Kohima, Nagaland">Kohima, NL</button>
+          <button class="east-city-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Shillong, Meghalaya">Shillong, ML</button>
+          <button class="east-city-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Agartala, Tripura">Agartala, TR</button>
+          <button class="east-city-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Gangtok, Sikkim">Gangtok, SK</button>
+          <button class="east-city-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Itanagar, Arunachal Pradesh">Itanagar, AR</button>
+        </div>
+      </div>
+
+      <!-- West India -->
+      <div id="westIndia" class="location-section mt-4 hidden">
+        <h3 class="text-lg font-semibold text-gray-700 mb-3">West India States & Cities</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+          <button class="west-city-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Mumbai, Maharashtra">Mumbai, MH</button>
+          <button class="west-city-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Pune, Maharashtra">Pune, MH</button>
+          <button class="west-city-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Ahmedabad, Gujarat">Ahmedabad, GJ</button>
+          <button class="west-city-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Surat, Gujarat">Surat, GJ</button>
+          <button class="west-city-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Nagpur, Maharashtra">Nagpur, MH</button>
+          <button class="west-city-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Vadodara, Gujarat">Vadodara, GJ</button>
+          <button class="west-city-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Nashik, Maharashtra">Nashik, MH</button>
+          <button class="west-city-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Aurangabad, Maharashtra">Aurangabad, MH</button>
+          <button class="west-city-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Rajkot, Gujarat">Rajkot, GJ</button>
+          <button class="west-city-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Bhavnagar, Gujarat">Bhavnagar, GJ</button>
+          <button class="west-city-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Panaji, Goa">Panaji, GA</button>
+          <button class="west-city-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Daman">Daman</button>
+        </div>
+      </div>
+
+      <!-- Central India -->
+      <div id="centralIndia" class="location-section mt-4 hidden">
+        <h3 class="text-lg font-semibold text-gray-700 mb-3">Central India States & Cities</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+          <button class="central-city-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Bhopal, Madhya Pradesh">Bhopal, MP</button>
+          <button class="central-city-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Indore, Madhya Pradesh">Indore, MP</button>
+          <button class="central-city-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Jabalpur, Madhya Pradesh">Jabalpur, MP</button>
+          <button class="central-city-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Gwalior, Madhya Pradesh">Gwalior, MP</button>
+          <button class="central-city-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Ujjain, Madhya Pradesh">Ujjain, MP</button>
+          <button class="central-city-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Sagar, Madhya Pradesh">Sagar, MP</button>
+          <button class="central-city-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Rewa, Madhya Pradesh">Rewa, MP</button>
+          <button class="central-city-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Satna, Madhya Pradesh">Satna, MP</button>
+          <button class="central-city-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Chhatarpur, Madhya Pradesh">Chhatarpur, MP</button>
+          <button class="central-city-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Damoh, Madhya Pradesh">Damoh, MP</button>
+          <button class="central-city-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Panna, Madhya Pradesh">Panna, MP</button>
+          <button class="central-city-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-city="Tikamgarh, Madhya Pradesh">Tikamgarh, MP</button>
+        </div>
+      </div>
+
+      <!-- Recent Cities Dropdown -->
+      <div id="recentCities" class="mt-4 hidden">
+        <label for="recentSelect" class="block text-sm font-medium text-gray-700 mb-2">
+          <i class="fas fa-history mr-2"></i>Recent Searches:
+        </label>
+        <select 
+          id="recentSelect" 
+          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        >
+          <option value="">Select a recent city...</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="hidden flex justify-center items-center py-8">
+      <div class="flex flex-col items-center">
+        <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mb-4"></div>
+        <p class="text-gray-600">Fetching weather data...</p>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div id="errorMessage" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+      <div class="flex items-center">
+        <i class="fas fa-exclamation-triangle mr-2"></i>
+        <span id="errorText"></span>
+      </div>
+    </div>
+
+    <!-- Current Weather -->
+    <div id="currentWeather" class="hidden bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 mb-8 border border-gray-100 transition-all duration-500" id="weatherSection">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Current Weather</h2>
+        <div class="text-sm text-gray-600">
+          <i class="fas fa-map-marker-alt mr-1"></i>
+          <span id="currentLocation"></span>
+        </div>
+      </div>
+      <div id="currentWeatherContent" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Current weather data will be injected here -->
+      </div>
+    </div>
+
+    <!-- Extended Forecast -->
+    <div id="extendedForecast" class="hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">5-Day Forecast</h2>
+        <div class="text-sm text-gray-600">
+          <i class="fas fa-calendar-alt mr-1"></i>
+          Extended Weather Prediction
+        </div>
+      </div>
+      <div id="forecastContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <!-- Extended forecast data will be injected here -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white/90 backdrop-blur-sm border-t border-gray-200 mt-auto transition-all duration-500" id="footer">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center space-x-4 mb-4 md:mb-0">
+          <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <i class="wi wi-day-sunny text-white text-sm"></i>
+          </div>
+          <div>
+            <p class="text-gray-600 text-sm">WeatherPro - Professional Weather Forecast</p>
+            <p class="text-xs text-gray-500">Powered by OpenWeatherMap API</p>
+          </div>
+        </div>
+        <div class="flex space-x-4 text-sm text-gray-600">
+          <span><i class="fas fa-code mr-1"></i>Built with HTML, CSS, JavaScript</span>
+          <span><i class="fas fa-mobile-alt mr-1"></i>Responsive Design</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
